@@ -12,13 +12,19 @@ try:
     with connection.cursor() as cursor:
         # Select all Products
         sql = "SELECT * from Products"
-        cursor.execute(sql)
-        result = cursor.fetchone()
-        print(result)
         
-    # connection is not autocommit by default. So you must commit to save
-    # your changes.
-    # connection.commit()
+        # execute the SQL command
+        cursor.execute(sql)
+        
+        # get the results
+        for result in cursor:
+            print (result)
+        
+      
+        # If you INSERT, UPDATE or CREATE, the connection is not autocommit by default.
+        # So you must commit to save your changes. 
+        # connection.commit()
+        
 
 finally:
     connection.close()
