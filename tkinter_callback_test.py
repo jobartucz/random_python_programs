@@ -48,7 +48,7 @@ print("Go!")            # LED turns off
 can_click = True
 
 
-# this code just assigns the function about to the button
+# this code assigns the "pressed" function to the button click
 b = Button(text="click me", command=pressed)
 b.pack()
 
