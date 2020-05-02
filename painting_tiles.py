@@ -28,3 +28,49 @@ Optimal painting: tile 1 with color 1, tile 2 with color 3, tile 3 with color 2,
 
 Total cost is costs[0][0] + costs[1][2] + costs[2][1] + costs[3][0] + costs[4][2] + costs[5][1] == 1+2+1+2+2+1 == 9.'''
 
+
+def getpathcost(costs, stepnum, laststep):
+
+    if stepnum == len(costs):
+        return 0
+
+    # save for later # costmatrix = [[9999 for x in range[len(costs[0])]] for y in range(len(costs))]
+    mincost = 9999
+    for c in range(len(costs[stepnum])):
+        # print ("trying " + str(c))
+        if c == laststep:
+            # print ("skipping same")
+            continue
+
+        thiscost = costs[stepnum][c] + getpathcost(costs, stepnum + 1, c)
+        # print ("thiscost: " + str(thiscost))
+        if thiscost < mincost:
+            mincost = thiscost
+            # print ("mincost: " + str(mincost))
+
+    return mincost
+
+
+# should == 9
+costinput1 = [[ 1, 3, 4, 5],  #  tile 1
+         [ 2, 3, 2, 3],  #   2
+         [ 3, 1, 4, 1],  #   3
+         [ 2, 3, 1, 3],  #   4
+         [ 5, 4, 2, 4],  #   5
+         [ 6, 1, 6, 6]]  #   6
+
+# should == 5
+costinput2 = [[1,3,4,5], 
+         [2,3,2,3], 
+         [3,1,4,1],
+         [2,3,1,3]]
+
+# should == 20
+costinput3 = [[2, 10, 4, 1],
+          [10, 7, 10, 3],
+          [6, 7, 10, 7],
+          [9, 7, 6, 10],
+          [4, 2, 7, 10],
+          [9, 4, 1, 5]]
+
+print(getpathcost(costinput1, 0, -1))
