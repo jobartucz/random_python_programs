@@ -48,27 +48,33 @@ def packval_dynamic(cap, wt, val, n):
     K = [[0 for x in range(cap + 1)] for y in range(n + 1)]
     # Table in bottom up manner
     for i in range(n + 1):
-        for w in range(cap + 1):
-            if i == 0 or w == 0:
-                K[i][w] = 0
-            elif wt[i-1] <= w:
-                K[i][w] = max(val[i-1] + K[i-1][w-wt[i-1]], K[i-1][w])
+        myweight = wt[i-1]
+        myval = val[i-1]
+        for c in range(cap + 1):
+            if i == 0 or c == 0:
+                K[i][c] = 0
+            elif wt[i-1] <= c:
+                # for all the capacities,
+                # if we have enough to add this item at this capacity
+                # check whether it is better to add it and reduce the capactiy for previous items
+                # or whether to just keep the capacity
+                K[i][c] = max(myval + K[i-1][c-myweight], K[i-1][c])
             else:
-                K[i][w] = K[i-1][w]
+                # if we don't have room for the item at this capacity, skip it
+                K[i][c] = K[i-1][c]
         
-            print(K[i][w], end=" ")
+            print(K[i][c], end=" ")
         print()
 
     return K[n][cap]
 
-
-scores = [15, 10, 9, 5]
-weights = [1, 5, 3, 4]
-capacity = 8
-
 scores = [20, 5, 10, 40, 15, 25]
 weights = [1, 2, 3, 8, 7, 4]
 capacity = 10
+
+# scores = [15, 10, 9, 5]
+# weights = [1, 5, 3, 4]
+# capacity = 8
 
 # zero out the optlist
 optlist = []
