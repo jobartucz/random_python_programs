@@ -30,3 +30,46 @@ Input is a value positive number (N>0) and can be quite high, so try to make you
 
 Have fun :)
 '''
+
+
+def checkspot(y, x, board):
+
+    # we can only check rows that have gone before
+    for i in range(y):
+        if board[i] == x:
+            # we've already used this x
+            return False
+        
+        # slope +1
+        if board[i] + i == x + y:
+            return False
+
+        # slope -1
+        if board[i] - i == x - y:
+            return False
+
+    return True
+
+def nQueen_greedy_doesntwork(n):
+
+    board = [-1 for x in range(n)]
+
+    board[0] = 0
+    # for every row
+    for i in range(1, n):
+        # for every spot
+        for j in range(1, n):
+            # check to see if we can place it
+            if checkspot(i, j, board):
+                board[i] = j
+                break
+
+        if board[i] == j:
+            continue
+        if board[i] == -1:
+            # no placement
+            return []
+
+    return board
+
+print(nQueen(8))
