@@ -27,7 +27,6 @@ def getpathcost_brute(costs, stepnum, laststep):
     if stepnum == len(costs):
         return 0
 
-    # save for later # costmatrix = [[9999 for x in range[len(costs[0])]] for y in range(len(costs))]
     mincost = 9999
     for c in range(len(costs[stepnum])):
         # print ("trying " + str(c))
@@ -35,7 +34,7 @@ def getpathcost_brute(costs, stepnum, laststep):
             # print ("skipping same")
             continue
 
-        thiscost = costs[stepnum][c] + getpathcost(costs, stepnum + 1, c)
+        thiscost = costs[stepnum][c] + getpathcost_brute(costs, stepnum + 1, c)
         # print ("thiscost: " + str(thiscost))
         if thiscost < mincost:
             mincost = thiscost
@@ -55,7 +54,6 @@ def getpathcost_memo(costs, stepnum, laststep, savedcosts):
 
         if savedcosts[stepnum][c] > 0:
             thiscost = savedcosts[stepnum][c]
-            print("HEY!")
         else:
             thiscost = costs[stepnum][c] + getpathcost_memo(costs, stepnum + 1, c, savedcosts)
             savedcosts[stepnum][c] = thiscost
@@ -65,6 +63,27 @@ def getpathcost_memo(costs, stepnum, laststep, savedcosts):
 
     return mincost
 
+def getpathcost_matrix(costs):
+
+    costmatrix = [[0 for x in range(4)] for y in range(len(costs) + 1)]
+    costmatrix[0] = costs[0]
+    print(costmatrix[0])
+    for step in range(1, len(costs)):
+        costmatrix[step][0] = costs[step][0] + min(costmatrix[step-1][1], costmatrix[step-1][2], costmatrix[step-1][3])
+        costmatrix[step][1] = costs[step][1] + min(costmatrix[step-1][0], costmatrix[step-1][2], costmatrix[step-1][3])
+        costmatrix[step][2] = costs[step][2] + min(costmatrix[step-1][0], costmatrix[step-1][1], costmatrix[step-1][3])
+        costmatrix[step][3] = costs[step][3] + min(costmatrix[step-1][0], costmatrix[step-1][1], costmatrix[step-1][2])
+
+        print(costmatrix[step])
+
+    return(min(costmatrix[step][0], costmatrix[step][1], costmatrix[step][2], costmatrix[step][3]))
+
+# should == 5
+costinput2 = [[1,3,4,5], 
+         [2,3,2,3], 
+         [3,1,4,1],
+         [2,3,1,3]]
+
 # should == 9
 costinput1 = [[ 1, 3, 4, 5],  #  tile 1
          [ 2, 3, 2, 3],  #   2
@@ -72,12 +91,6 @@ costinput1 = [[ 1, 3, 4, 5],  #  tile 1
          [ 2, 3, 1, 3],  #   4
          [ 5, 4, 2, 4],  #   5
          [ 6, 1, 6, 6]]  #   6
-
-# should == 5
-costinput2 = [[1,3,4,5], 
-         [2,3,2,3], 
-         [3,1,4,1],
-         [2,3,1,3]]
 
 # should == 20
 costinput3 = [[2, 10, 4, 1],
@@ -88,7 +101,10 @@ costinput3 = [[2, 10, 4, 1],
           [9, 4, 1, 5]]
 
 
-costinput = costinput3
+costinput = costinput1
 savedcosts = [[-1 for x in range(len(costinput[0]) + 1)] for y in range(len(costinput))]
 
 print(getpathcost_memo(costinput, 0, -1, savedcosts))
+
+costinput = costinput1
+print(getpathcost_matrix(costinput))
