@@ -72,4 +72,24 @@ def nQueen_greedy_doesntwork(n):
 
     return board
 
+def placenext(board, level):
+
+    if level == len(board):
+        return board
+
+    for x in range(len(board)):
+        if checkspot(level, x, board) == True:
+            board[level] = x
+            tempboard = placenext(board, level + 1)
+            if len(tempboard) > 0:
+                return tempboard
+        
+    return []
+
+
+def nQueen_brute(n):
+    board = [-1 for x in range(n)]
+
+    return(placenext(board, 0))
+
 print(nQueen(8))
