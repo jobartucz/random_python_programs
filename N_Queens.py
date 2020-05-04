@@ -92,4 +92,44 @@ def nQueen_brute(n):
 
     return(placenext(board, 0))
 
-print(nQueen(8))
+def nQueen(n):
+    explanation = ''' from WikiPedia
+    If the remainder from dividing n by 6 is not 2 or 3 then the list is simply all even numbers followed by all odd numbers not greater than n.
+    Otherwise, write separate lists of even and odd numbers (2, 4, 6, 8 – 1, 3, 5, 7).
+    If the remainder is 2, swap 1 and 3 in odd list and move 5 to the end (3, 1, 7, 5).
+    If the remainder is 3, move 2 to the end of even list and 1,3 to the end of odd list (4, 6, 8, 2 – 5, 7, 1, 3).
+    Append odd list to the even list and place queens in the rows given by these numbers, from left to right (a2, b4, c6, d8, e3, f1, g7, h5).'''
+
+    evens = []
+    odds = []
+    for i in range(1, n + 1):
+        if i % 2 == 0:
+            evens.append(i)
+    for i in range(1, n + 1):
+        if i % 2 == 1:
+            odds.append(i)
+
+    remainder = n % 6
+
+    if remainder == 2:
+        odds[0] = 3
+        odds[1] = 1
+        odds.pop(2)
+        odds.append(5)
+
+    if remainder == 3:
+        evens.pop(0)
+        evens.append(2)
+        odds.pop(0)
+        odds.append(1)
+        odds.pop(0)
+        odds.append(3)
+
+    board = []
+    for i in evens:
+        board.append(i - 1)
+    for i in odds:
+        board.append(i - 1)
+    return board
+
+print(nQueen(20))
