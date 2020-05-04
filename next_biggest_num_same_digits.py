@@ -26,5 +26,5 @@ def next_bigger(n):
             return newnum
     
     return -1
-
+ 
 print(next_bigger(2097))
