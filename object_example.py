@@ -1,9 +1,14 @@
 # define the Vehicle class
 class Vehicle:
-    name = ""
-    kind = "car"
-    color = ""
-    value = 0.0
+
+    def __init__(self, name = "", kind = "car", color = "", value = 0.0):
+        super().__init__()
+
+        self.name = name
+        self.kind = kind
+        self.color = color
+        self.value = value
+
     def description(self):
         desc_str = "%s is a %s %s worth $%.2f." % (self.name, self.color, self.kind, self.value)
         return desc_str
