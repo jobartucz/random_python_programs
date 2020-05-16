@@ -50,5 +50,27 @@ def kth_biggest_sorted(k, arr):
     arr.sort()
     return arr[k-1]
 
+def kth_biggest_def_qs(k, l):
+
+    if len(l) <= 1:
+        return l
+
+    # we'll always choose the last element as the pivot
+    pivot = l[randint(0, len(l) - 1)]
+
+    print(pivot)
+
+    a = []
+    b = []
+    for i in l:
+        if i < pivot:
+            a.append(i)
+        else:
+            b.append(i)
+
+    if len(a) < k:
+        return kth_biggest_def_qs(k, a) + kth_biggest_def_qs(k, b)
+    else:
+        kth_biggest_def_qs(k,a)
 
 print(kth_biggest(4,[9,12,0,5,4,54323452345,8,7,6,5,4,3,2,1]))

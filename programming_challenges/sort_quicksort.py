@@ -9,6 +9,8 @@ def qs(l):
     # we'll always choose the last element as the pivot
     pivot = l[randint(0, len(l) - 1)]
 
+    # print(pivot)
+
     a = []
     b = []
     for i in l:
